@@ -1,960 +1,150 @@
 <!DOCTYPE html>
 <html lang="my">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>သိလား? Myanmar Quiz</title>
+  <title>သိလား? Myanmar Quiz</title>
 
-<style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,"Noto Sans Myanmar",sans-serif;
-}
-
-body{
-  background:#080914;
-  color:#fff;
-}
-
-button{
-  font-family:inherit;
-  cursor:pointer;
-}
-
-.app{
-  width:100%;
-  max-width:520px;
-  min-height:100vh;
-  margin:auto;
-  padding:18px;
-  background:
-    radial-gradient(circle at 80% 0%,#34206b 0%,transparent 30%),
-    radial-gradient(circle at 0% 30%,#132b5c 0%,transparent 25%),
-    #080914;
-}
-
-/* HEADER */
-
-.header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:22px;
-}
-
-.brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.logo{
-  width:48px;
-  height:48px;
-  border-radius:15px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:26px;
-  background:linear-gradient(135deg,#7c4dff,#e040fb);
-  box-shadow:0 8px 25px #7c4dff55;
-}
-
-.brand h1{
-  font-size:20px;
-}
-
-.brand small{
-  color:#85869a;
-  font-size:11px;
-}
-
-.coin{
-  background:#191a2d;
-  border:1px solid #2d2e46;
-  padding:10px 13px;
-  border-radius:18px;
-  color:#ffd84d;
-  font-weight:bold;
-}
-
-/* HERO */
-
-.hero{
-  padding:25px;
-  border-radius:28px;
-  background:linear-gradient(135deg,#6735e8,#c638e8);
-  box-shadow:0 18px 40px #0008;
-  position:relative;
-  overflow:hidden;
-  margin-bottom:20px;
-}
-
-.hero:after{
-  content:"";
-  position:absolute;
-  width:160px;
-  height:160px;
-  right:-50px;
-  top:-50px;
-  border-radius:50%;
-  background:#ffffff18;
-}
-
-.hero-icon{
-  font-size:45px;
-  margin-bottom:8px;
-}
-
-.hero h2{
-  font-size:27px;
-  margin-bottom:8px;
-}
-
-.hero p{
-  color:#eee;
-  font-size:14px;
-  line-height:1.6;
-  margin-bottom:20px;
-}
-
-.play{
-  width:100%;
-  border:0;
-  padding:15px;
-  border-radius:15px;
-  background:#fff;
-  color:#7137d9;
-  font-weight:bold;
-  font-size:16px;
-}
-
-/* STREAK */
-
-.streak{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:16px;
-  background:#151627;
-  border:1px solid #282941;
-  border-radius:20px;
-  margin-bottom:25px;
-}
-
-.streak b{
-  font-size:16px;
-}
-
-.streak span{
-  color:#85869a;
-  font-size:12px;
-  display:block;
-  margin-top:4px;
-}
-
-.fire{
-  font-size:32px;
-}
-
-/* SECTION */
-
-.section-title{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:14px;
-}
-
-.section-title h2{
-  font-size:19px;
-}
-
-.section-title small{
-  color:#77798c;
-}
-
-/* CATEGORIES */
-
-.categories{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
-.category{
-  border:1px solid #282941;
-  background:#151627;
-  color:#fff;
-  border-radius:20px;
-  padding:18px;
-  text-align:left;
-  transition:.2s;
-}
-
-.category:active{
-  transform:scale(.96);
-}
-
-.category-icon{
-  font-size:31px;
-  margin-bottom:10px;
-}
-
-.category b{
-  font-size:14px;
-}
-
-.category small{
-  display:block;
-  color:#77798c;
-  margin-top:5px;
-}
-
-/* BOTTOM CARDS */
-
-.cards{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-  margin-top:25px;
-}
-
-.card{
-  background:#151627;
-  border:1px solid #282941;
-  color:#fff;
-  border-radius:20px;
-  padding:18px;
-  text-align:left;
-}
-
-.card-icon{
-  font-size:28px;
-  margin-bottom:9px;
-}
-
-.card small{
-  display:block;
-  color:#77798c;
-  margin-top:5px;
-}
-
-.footer{
-  text-align:center;
-  color:#4d4f61;
-  font-size:11px;
-  padding:30px 0 15px;
-}
-
-/* QUIZ */
-
-.quiz-top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:18px;
-}
-
-.back{
-  border:0;
-  background:#18192b;
-  color:#fff;
-  width:42px;
-  height:42px;
-  border-radius:14px;
-  font-size:18px;
-}
-
-.question-count{
-  font-size:14px;
-  color:#9b9caf;
-}
-
-.timer{
-  width:48px;
-  height:48px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#17182a;
-  border:3px solid #8b5cf6;
-  font-weight:bold;
-}
-
-.progress{
-  height:7px;
-  background:#202137;
-  border-radius:10px;
-  margin-bottom:25px;
-  overflow:hidden;
-}
-
-.progress-bar{
-  height:100%;
-  background:linear-gradient(90deg,#7c4dff,#e040fb);
-  border-radius:10px;
-  transition:.3s;
-}
-
-.question-card{
-  background:linear-gradient(145deg,#181a30,#10111f);
-  border:1px solid #2b2d48;
-  border-radius:25px;
-  padding:25px 20px;
-  margin-bottom:18px;
-}
-
-.question-number{
-  color:#9c73ff;
-  font-size:12px;
-  font-weight:bold;
-  margin-bottom:12px;
-}
-
-.question{
-  font-size:21px;
-  line-height:1.7;
-}
-
-.answers{
-  display:flex;
-  flex-direction:column;
-  gap:11px;
-}
-
-.answer{
-  width:100%;
-  padding:16px;
-  border-radius:17px;
-  border:1px solid #303249;
-  background:#151627;
-  color:#fff;
-  text-align:left;
-  font-size:15px;
-  transition:.2s;
-}
-
-.answer:active{
-  transform:scale(.98);
-}
-
-.answer.correct{
-  background:#123d2a;
-  border-color:#22c77a;
-}
-
-.answer.wrong{
-  background:#451b27;
-  border-color:#ff5573;
-}
-
-.answer.disabled{
-  pointer-events:none;
-}
-
-.answer-letter{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  width:31px;
-  height:31px;
-  border-radius:10px;
-  background:#25273d;
-  margin-right:9px;
-  font-weight:bold;
-}
-
-.quiz-message{
-  min-height:28px;
-  text-align:center;
-  margin-top:15px;
-  color:#aaa;
-}
-
-.next{
-  width:100%;
-  border:0;
-  padding:16px;
-  border-radius:17px;
-  margin-top:14px;
-  background:linear-gradient(90deg,#7c4dff,#e040fb);
-  color:white;
-  font-size:16px;
-  font-weight:bold;
-  display:none;
-}
-
-/* RESULT */
-
-.result{
-  text-align:center;
-  padding-top:50px;
-}
-
-.trophy{
-  font-size:75px;
-  margin-bottom:15px;
-}
-
-.result h1{
-  font-size:28px;
-}
-
-.result-sub{
-  color:#85869a;
-  margin:10px 0 25px;
-}
-
-.result-box{
-  background:#151627;
-  border:1px solid #292b43;
-  border-radius:25px;
-  padding:25px;
-  margin-bottom:18px;
-}
-
-.score{
-  font-size:42px;
-  font-weight:bold;
-  background:linear-gradient(90deg,#a78bfa,#f0abfc);
-  -webkit-background-clip:text;
-  color:transparent;
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr;
-  gap:8px;
-  margin-top:20px;
-}
-
-.stat{
-  background:#202137;
-  padding:13px 5px;
-  border-radius:15px;
-}
-
-.stat b{
-  display:block;
-  font-size:18px;
-}
-
-.stat small{
-  color:#77798c;
-  font-size:10px;
-}
-
-.result-buttons{
-  display:flex;
-  gap:10px;
-}
-
-.result-buttons button{
-  flex:1;
-  padding:15px;
-  border:0;
-  border-radius:16px;
-  color:white;
-  font-weight:bold;
-}
-
-.again{
-  background:linear-gradient(90deg,#7c4dff,#e040fb);
-}
-
-.home{
-  background:#202137;
-}
-</style>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div id="app"></div>
-
-<script>
-
-const quizData = {
-
-"အထွေထွေဗဟုသုတ":[
-{
-q:"ကမ္ဘာပေါ်မှာ အကြီးဆုံး သမုဒ္ဒရာက ဘာလဲ?",
-a:["အတ္တလန္တိတ်","အိန္ဒိယ","ပစိဖိတ်","အာတိတ်"],
-c:2
-},
-{
-q:"တစ်ပတ်မှာ ရက်ဘယ်နှရက်ရှိသလဲ?",
-a:["၅","၆","၇","၈"],
-c:2
-},
-{
-q:"ကမ္ဘာ့အမြင့်ဆုံးတောင်က ဘာလဲ?",
-a:["K2","Everest","Fuji","Kilimanjaro"],
-c:1
-}
-],
-
-"မြန်မာ့အကြောင်း":[
-{
-q:"မြန်မာနိုင်ငံရဲ့ မြို့တော်က ဘာလဲ?",
-a:["ရန်ကုန်","မန္တလေး","နေပြည်တော်","ပုဂံ"],
-c:2
-},
-{
-q:"မြန်မာနိုင်ငံရဲ့ အရှည်ဆုံးမြစ်က ဘာလဲ?",
-a:["ဧရာဝတီ","ချင်းတွင်း","သံလွင်","စစ်တောင်း"],
-c:0
-}
-],
-
-"သိပ္ပံနှင့်သဘာဝ":[
-{
-q:"ရေဟာ ပုံမှန်လေထုဖိအားမှာ ဘယ်ဒီဂရီမှာ ပွက်သလဲ?",
-a:["50°C","75°C","100°C","150°C"],
-c:2
-},
-{
-q:"လူသားတွေ အသက်ရှူရာမှာ အဓိကအသုံးပြုတဲ့ ဓာတ်ငွေ့က ဘာလဲ?",
-a:["Oxygen","Carbon Dioxide","Hydrogen","Helium"],
-c:0
-}
-],
-
-"အားကစား":[
-{
-q:"ဘောလုံးအသင်းတစ်သင်းမှာ ကွင်းထဲကစားသူ ဘယ်နှယောက်ရှိသလဲ?",
-a:["၉","၁၀","၁၁","၁၂"],
-c:2
-}
-],
-
-"ကမ္ဘာ့ဗဟုသုတ":[
-{
-q:"အင်္ဂလိပ်အက္ခရာမှာ စာလုံးဘယ်နှလုံးရှိသလဲ?",
-a:["24","25","26","27"],
-c:2
-}
-],
-
-"ပညာရေး":[
-{
-q:"မြန်မာအက္ခရာမှာ အခြေခံဗျည်း ဘယ်နှလုံးရှိသလဲ?",
-a:["31","32","33","34"],
-c:2
-}
-],
-
-"ဉာဏ်စမ်း":[
-{
-q:"မနက်မှာ ခြေလေးချောင်း၊ နေ့လယ်မှာ ခြေနှစ်ချောင်း၊ ညမှာ ခြေသုံးချောင်းနဲ့ သွားတာဘာလဲ?",
-a:["လူ","ခွေး","ကြောင်","မြင်း"],
-c:0
-}
-],
-
-"Entertainment":[
-{
-q:"Movie ဆိုတာ ဘာနဲ့အနီးစပ်ဆုံးလဲ?",
-a:["ရုပ်ရှင်","သီချင်း","စာအုပ်","အားကစား"],
-c:0
-}
-],
-
-"Kids Zone":[
-{
-q:"နေဟာ ဘာအမျိုးအစားဖြစ်သလဲ?",
-a:["ဂြိုဟ်","ကြယ်","လ","ဂြိုဟ်သိမ်"],
-c:1
-}
-],
-
-"Fun Quiz":[
-{
-q:"အရောင်တွေထဲမှာ လူအများကြိုက်တဲ့အရောင်က ဘာဖြစ်နိုင်လဲ?",
-a:["အပြာ","အစိမ်း","အနီ","အဝါ"],
-c:0
-}
-]
+  <main class="app">
 
-};
+    <!-- Header -->
+    <header class="header">
 
-let currentCategory="အထွေထွေဗဟုသုတ";
-let questions=[];
-let current=0;
-let score=0;
-let correctCount=0;
-let coins=2450;
-let time=15;
-let timer=null;
-let answered=false;
+      <div class="brand">
+        <div class="logo">🧠</div>
 
-const categories=[
-["🧠","အထွေထွေဗဟုသုတ"],
-["🇲🇲","မြန်မာ့အကြောင်း"],
-["🌍","ကမ္ဘာ့ဗဟုသုတ"],
-["🔬","သိပ္ပံနှင့်သဘာဝ"],
-["📚","ပညာရေး"],
-["⚽","အားကစား"],
-["🎬","Entertainment"],
-["🧩","ဉာဏ်စမ်း"],
-["😂","Fun Quiz"],
-["🧒","Kids Zone"]
-];
+        <div>
+          <h1>သိလား?</h1>
+          <small>MYANMAR QUIZ</small>
+        </div>
+      </div>
 
-function home(){
+    </header>
 
-document.getElementById("app").innerHTML=`
 
-<div class="app">
+    <!-- Home Hero -->
+    <section class="hero">
 
-<div class="header">
+      <div class="hero-icon">🎯</div>
 
-<div class="brand">
-<div class="logo">🧠</div>
-<div>
-<h1>သိလား?</h1>
-<small>MYANMAR QUIZ</small>
-</div>
-</div>
+      <h2>1-Minute Quiz</h2>
 
-<div class="coin">🪙 ${coins}</div>
+      <p>
+        ၁ မိနစ်အတွင်း မေးခွန်းတွေကို ဖြေကြည့်ပါ။
+        အဖြေမှန်ရင် မှန်ကြောင်း၊ မှားရင် မှားကြောင်း ပြပေးပါမယ်။
+      </p>
 
-</div>
+      <button class="play" onclick="showCategories()">
+        ▶ စတင်ကစားမယ်
+      </button>
 
-<div class="hero">
+    </section>
 
-<div class="hero-icon">🎯</div>
 
-<h2>Daily Quiz</h2>
+    <!-- Category Section -->
+    <section id="category-section" class="category-section">
 
-<p>
-နေ့တိုင်း Quiz ကစားပြီး Knowledge တိုးပါ။
-မှန်ကန်တဲ့အဖြေတိုင်း Coin ရယူနိုင်ပါတယ်။
-</p>
+      <div class="section-title">
+        <h2>📚 Category ရွေးပါ</h2>
+      </div>
 
-<button class="play" onclick="startQuiz('အထွေထွေဗဟုသုတ')">
-▶ စတင်ကစားမယ်
-</button>
+      <div id="categories" class="categories"></div>
 
-</div>
+    </section>
 
-<div class="streak">
 
-<div>
-<b>🔥 7 Days Streak</b>
-<span>ဒီနေ့ Quiz ကစားဖို့ မမေ့နဲ့!</span>
-</div>
+    <!-- Quiz Section -->
+    <section id="quiz-section" class="quiz-section">
 
-<div class="fire">🔥</div>
+      <div class="quiz-top">
 
-</div>
+        <button class="back" onclick="goHome()">
+          ←
+        </button>
 
-<div class="section-title">
-<h2>📚 Categories</h2>
-<small>${categories.length} ခု</small>
-</div>
+        <div id="question-count" class="question-count">
+          Question
+        </div>
 
-<div class="categories">
+        <div id="timer" class="timer">
+          60
+        </div>
 
-${categories.map(x=>`
+      </div>
 
-<button class="category" onclick="startQuiz('${x[1]}')">
 
-<div class="category-icon">${x[0]}</div>
+      <div class="progress">
+        <div id="progress-bar" class="progress-bar"></div>
+      </div>
 
-<b>${x[1]}</b>
 
-<small>Quiz ကစားရန် ›</small>
+      <div class="question-card">
 
-</button>
+        <div id="question-number" class="question-number">
+          Question 1
+        </div>
 
-`).join("")}
+        <div id="question" class="question">
+          မေးခွန်း
+        </div>
 
-</div>
+      </div>
 
-<div class="cards">
 
-<button class="card">
-<div class="card-icon">🏆</div>
-<b>Leaderboard</b>
-<small>အဆင့်ကြည့်ရန်</small>
-</button>
+      <div id="answers" class="answers"></div>
 
-<button class="card">
-<div class="card-icon">🎁</div>
-<b>Daily Reward</b>
-<small>ဆုယူရန်</small>
-</button>
+      <div id="quiz-message" class="quiz-message"></div>
 
-</div>
+      <button id="next-button" class="next" onclick="nextQuestion()">
+        နောက်မေးခွန်း →
+      </button>
 
-<div class="footer">
-သိလား? • Myanmar Quiz Game
-</div>
+    </section>
 
-</div>
 
-`;
+    <!-- Finished Screen -->
+    <section id="finished-section" class="finished">
 
-}
+      <div class="finished-icon">
+        🎉
+      </div>
 
-function startQuiz(category){
+      <h2>Quiz ပြီးပါပြီ!</h2>
 
-currentCategory=category;
-questions=[...quizData[category]];
+      <p>
+        ဒီတစ်ခါ Quiz ကစားပေးလို့ ကျေးဇူးတင်ပါတယ်။
+      </p>
 
-current=0;
-score=0;
-correctCount=0;
+      <div class="finished-buttons">
 
-showQuestion();
+        <button onclick="showCategories()" class="again">
+          🔄 ထပ်ကစားမယ်
+        </button>
 
-}
+        <button onclick="goHome()" class="home">
+          🏠 Home
+        </button>
 
-function showQuestion(){
+      </div>
 
-clearInterval(timer);
+    </section>
 
-answered=false;
-time=15;
 
-const q=questions[current];
+    <footer class="footer">
+      သိလား? Myanmar Quiz
+    </footer>
 
-document.getElementById("app").innerHTML=`
+  </main>
 
-<div class="app">
 
-<div class="quiz-top">
-
-<button class="back" onclick="home()">‹</button>
-
-<div class="question-count">
-Question ${current+1} / ${questions.length}
-</div>
-
-<div class="timer" id="timer">${time}</div>
-
-</div>
-
-<div class="progress">
-<div class="progress-bar"
-style="width:${((current+1)/questions.length)*100}%">
-</div>
-</div>
-
-<div class="question-card">
-
-<div class="question-number">
-${currentCategory.toUpperCase()}
-</div>
-
-<div class="question">
-${q.q}
-</div>
-
-</div>
-
-<div class="answers" id="answers">
-
-${q.a.map((answer,i)=>`
-
-<button
-class="answer"
-onclick="answer(${i})"
-id="answer-${i}">
-
-<span class="answer-letter">
-${String.fromCharCode(65+i)}
-</span>
-
-${answer}
-
-</button>
-
-`).join("")}
-
-</div>
-
-<div class="quiz-message" id="message"></div>
-
-<button class="next" id="next" onclick="nextQuestion()">
-နောက်မေးခွန်း →
-</button>
-
-</div>
-
-`;
-
-timer=setInterval(()=>{
-
-time--;
-
-const el=document.getElementById("timer");
-
-if(el) el.innerText=time;
-
-if(time<=0){
-
-clearInterval(timer);
-
-if(!answered){
-
-answer(-1);
-
-}
-
-}
-
-},1000);
-
-}
-
-function answer(selected){
-
-if(answered) return;
-
-answered=true;
-
-clearInterval(timer);
-
-const q=questions[current];
-
-const correct=q.c;
-
-if(selected===correct){
-
-score+=10;
-correctCount++;
-coins+=10;
-
-document.getElementById("message").innerText=
-"🎉 အဖြေမှန်! +10 🪙";
-
-document.getElementById("answer-"+selected)
-.classList.add("correct");
-
-}else{
-
-document.getElementById("message").innerText=
-"❌ အဖြေမှား!";
-
-if(selected>=0){
-
-document.getElementById("answer-"+selected)
-.classList.add("wrong");
-
-}
-
-document.getElementById("answer-"+correct)
-.classList.add("correct");
-
-}
-
-document.querySelectorAll(".answer")
-.forEach(x=>x.classList.add("disabled"));
-
-document.getElementById("next").style.display="block";
-
-}
-
-function nextQuestion(){
-
-current++;
-
-if(current>=questions.length){
-
-showResult();
-
-}else{
-
-showQuestion();
-
-}
-
-}
-
-function showResult(){
-
-clearInterval(timer);
-
-const accuracy=
-Math.round((correctCount/questions.length)*100);
-
-document.getElementById("app").innerHTML=`
-
-<div class="app">
-
-<div class="result">
-
-<div class="trophy">🏆</div>
-
-<h1>Quiz ပြီးပါပြီ!</h1>
-
-<div class="result-sub">
-${currentCategory}
-</div>
-
-<div class="result-box">
-
-<div class="score">${score}</div>
-
-<div style="color:#85869a;margin-top:5px;">
-POINTS
-</div>
-
-<div class="stats">
-
-<div class="stat">
-<b>${correctCount}</b>
-<small>မှန်</small>
-</div>
-
-<div class="stat">
-<b>${questions.length-correctCount}</b>
-<small>မှား</small>
-</div>
-
-<div class="stat">
-<b>${accuracy}%</b>
-<small>Accuracy</small>
-</div>
-
-</div>
-
-<div style="margin-top:20px;color:#ffd84d;font-size:18px;">
-🪙 +${correctCount*10} Coins
-</div>
-
-</div>
-
-<div class="result-buttons">
-
-<button class="home" onclick="home()">
-🏠 Home
-</button>
-
-<button class="again" onclick="startQuiz('${currentCategory}')">
-🔄 ထပ်ကစား
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-`;
-
-}
-
-home();
-
-</script>
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
 
 </body>
-  </html>
+</html>

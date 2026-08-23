@@ -1,3 +1,13 @@
+// ========================================
+// MYANMAR QUIZ GAME
+// 15 SECONDS PER QUESTION
+// ========================================
+
+
+// ----------------------------------------
+// CATEGORIES
+// ----------------------------------------
+
 const categories = [
   ["🧠", "အထွေထွေဗဟုသုတ"],
   ["🇲🇲", "မြန်မာ့အကြောင်း"],
@@ -12,21 +22,30 @@ const categories = [
 ];
 
 
+// ----------------------------------------
+// QUIZ VARIABLES
+// ----------------------------------------
+
 let currentCategory = "";
+
 let questions = [];
+
 let currentQuestion = 0;
 
-let timeLeft = 60;
+let timeLeft = 15;
+
 let timer = null;
 
 let answered = false;
 
 
-/* =========================
-   SHOW CATEGORIES
-========================= */
+// ----------------------------------------
+// SHOW CATEGORY PAGE
+// ----------------------------------------
 
 function showCategories() {
+
+  clearInterval(timer);
 
   document.querySelector(".hero").style.display = "none";
 
@@ -40,16 +59,20 @@ function showCategories() {
 }
 
 
-/* =========================
-   RENDER CATEGORIES
-========================= */
+// ----------------------------------------
+// DISPLAY CATEGORIES
+// ----------------------------------------
 
 function renderCategories() {
 
   const categoryBox =
     document.getElementById("categories");
 
-  categoryBox.innerHTML = categories.map(category => {
+
+  categoryBox.innerHTML = "";
+
+
+  categories.forEach(category => {
 
     const icon = category[0];
 
@@ -58,76 +81,104 @@ function renderCategories() {
     const questionCount =
       quizData[name]?.length || 0;
 
-    return `
 
-      <button
-        class="category"
-        onclick="startQuiz('${name}')"
-      >
+    const button =
+      document.createElement("button");
 
-        <div class="category-icon">
-          ${icon}
-        </div>
 
-        <b>${name}</b>
+    button.className = "category";
 
-        <small>
-          ${questionCount} Questions
-        </small>
 
-      </button>
+    button.innerHTML = `
+
+      <div class="category-icon">
+        ${icon}
+      </div>
+
+      <b>${name}</b>
+
+      <small>
+        ${questionCount} Questions
+      </small>
 
     `;
 
-  }).join("");
+
+    button.addEventListener("click", () => {
+
+      startQuiz(name);
+
+    });
+
+
+    categoryBox.appendChild(button);
+
+  });
+
 }
 
 
-/* =========================
-   START QUIZ
-========================= */
+// ----------------------------------------
+// START QUIZ
+// ----------------------------------------
 
 function startQuiz(category) {
 
-  if (!quizData[category] || quizData[category].length === 0) {
+  // Check questions
+  if (
+    !quizData[category] ||
+    quizData[category].length === 0
+  ) {
 
-    alert("ဒီ Category မှာ မေးခွန်းမရှိသေးပါဘူး။");
+    alert(
+      "ဒီ Category မှာ မေးခွန်းမရှိသေးပါဘူး။"
+    );
 
     return;
   }
 
 
+  // Save category
   currentCategory = category;
 
+
+  // Copy questions
   questions = [...quizData[category]];
 
+
+  // Randomize
   shuffleQuestions();
 
-  currentQuestion = 0;
 
-  timeLeft = 60;
+  // Reset
+  currentQuestion = 0;
 
   answered = false;
 
+  timeLeft = 15;
 
+
+  // Hide other screens
   document.querySelector(".hero").style.display = "none";
 
   document.querySelector(".category-section").style.display = "none";
 
-  document.querySelector(".quiz-section").style.display = "block";
-
   document.querySelector(".finished").style.display = "none";
 
 
-  startTimer();
+  // Show quiz
+  document.querySelector(".quiz-section").style.display = "block";
 
+
+  // Show first question
   showQuestion();
+
 }
 
 
-/* =========================
-   SHUFFLE QUESTIONS
-========================= */
+// ----------------------------------------
+// SHUFFLE QUESTIONS
+// ----------------------------------------
 
 function shuffleQuestions() {
 
@@ -137,67 +188,99 @@ function shuffleQuestions() {
     i--
   ) {
 
-    const j =
+    const random =
       Math.floor(Math.random() * (i + 1));
 
-    [
-      questions[i],
-      questions[j]
-    ] =
-    [
-      questions[j],
-      questions[i]
-    ];
+
+    const temp =
+      questions[i];
+
+
+    questions[i] =
+      questions[random];
+
+
+    questions[random] =
+      temp;
+
   }
+
 }
 
 
-/* =========================
-   SHOW QUESTION
-========================= */
+// ----------------------------------------
+// SHOW QUESTION
+// ----------------------------------------
 
 function showQuestion() {
 
-  if (questions.length === 0) {
-    return;
-  }
+  // Stop old timer
+  clearInterval(timer);
 
 
+  // Reset timer
+  timeLeft = 15;
+
+
+  // Reset answer state
+  answered = false;
+
+
+  // Get current question
   const question =
     questions[currentQuestion];
 
 
-  answered = false;
-
-
-  document.getElementById("question-number").textContent =
+  // Question number
+  document.getElementById(
+    "question-number"
+  ).textContent =
     `Question ${currentQuestion + 1}`;
 
 
-  document.getElementById("question-count").textContent =
+  // Question count
+  document.getElementById(
+    "question-count"
+  ).textContent =
     `${currentQuestion + 1} / ${questions.length}`;
 
 
-  document.getElementById("question").textContent =
+  // Question text
+  document.getElementById(
+    "question"
+  ).textContent =
     question.q;
 
 
-  document.getElementById("quiz-message").textContent =
+  // Message reset
+  document.getElementById(
+    "quiz-message"
+  ).textContent =
     "";
 
 
-  document.getElementById("next-button").style.display =
+  // Hide next button
+  document.getElementById(
+    "next-button"
+  ).style.display =
     "none";
 
 
+  // Progress
   const progress =
-    ((currentQuestion) / questions.length) * 100;
+    (
+      currentQuestion /
+      questions.length
+    ) * 100;
 
 
-  document.getElementById("progress-bar").style.width =
+  document.getElementById(
+    "progress-bar"
+  ).style.width =
     `${progress}%`;
 
 
+  // Answers container
   const answers =
     document.getElementById("answers");
 
@@ -205,119 +288,64 @@ function showQuestion() {
   answers.innerHTML = "";
 
 
-  question.a.forEach((answer, index) => {
+  // Create answers
+  question.a.forEach(
+    (answer, index) => {
 
-    const button =
-      document.createElement("button");
-
-
-    button.className = "answer";
-
-
-    button.innerHTML = `
-
-      <span class="answer-letter">
-        ${String.fromCharCode(65 + index)}
-      </span>
-
-      ${answer}
-
-    `;
+      const button =
+        document.createElement("button");
 
 
-    button.onclick = () =>
-      selectAnswer(index, button);
+      button.className =
+        "answer";
 
 
-    answers.appendChild(button);
+      button.innerHTML = `
 
-  });
+        <span class="answer-letter">
+          ${String.fromCharCode(65 + index)}
+        </span>
+
+        ${answer}
+
+      `;
+
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          selectAnswer(
+            index,
+            button
+          );
+
+        }
+      );
+
+
+      answers.appendChild(button);
+
+    }
+  );
+
+
+  // Start 15 second timer
+  startTimer();
 
 }
 
 
-/* =========================
-   SELECT ANSWER
-========================= */
-
-function selectAnswer(index, button) {
-
-  if (answered) {
-    return;
-  }
-
-
-  answered = true;
-
-
-  const question =
-    questions[currentQuestion];
-
-
-  const allAnswers =
-    document.querySelectorAll(".answer");
-
-
-  allAnswers.forEach(answer => {
-
-    answer.classList.add("disabled");
-
-  });
-
-
-  if (index === question.c) {
-
-    button.classList.add("correct");
-
-    document.getElementById("quiz-message").textContent =
-      "✅ အဖြေမှန်ပါတယ်!";
-
-  } else {
-
-    button.classList.add("wrong");
-
-    allAnswers[question.c].classList.add("correct");
-
-    document.getElementById("quiz-message").textContent =
-      `❌ အဖြေမှားပါတယ်။ မှန်တဲ့အဖြေက ${question.a[question.c]} ပါ။`;
-
-  }
-
-
-  document.getElementById("next-button").style.display =
-    "block";
-}
-
-
-/* =========================
-   NEXT QUESTION
-========================= */
-
-function nextQuestion() {
-
-  currentQuestion++;
-
-
-  if (currentQuestion >= questions.length) {
-
-    currentQuestion = 0;
-
-    shuffleQuestions();
-
-  }
-
-
-  showQuestion();
-}
-
-
-/* =========================
-   TIMER
-========================= */
+// ----------------------------------------
+// START 15 SECOND TIMER
+// ----------------------------------------
 
 function startTimer() {
 
   clearInterval(timer);
+
+
+  timeLeft = 15;
 
 
   updateTimer();
@@ -331,11 +359,13 @@ function startTimer() {
     updateTimer();
 
 
+    // Time finished
     if (timeLeft <= 0) {
 
       clearInterval(timer);
 
-      finishQuiz();
+
+      timeUp();
 
     }
 
@@ -344,79 +374,305 @@ function startTimer() {
 }
 
 
-/* =========================
-   UPDATE TIMER
-========================= */
+// ----------------------------------------
+// UPDATE TIMER
+// ----------------------------------------
 
 function updateTimer() {
 
-  document.getElementById("timer").textContent =
+  const timerElement =
+    document.getElementById("timer");
+
+
+  timerElement.textContent =
     timeLeft;
 
 
-  if (timeLeft <= 10) {
+  // Normal
+  if (timeLeft > 5) {
 
-    document.getElementById("timer").style.borderColor =
+    timerElement.style.borderColor =
+      "#8b5cf6";
+
+    timerElement.style.color =
+      "#ffffff";
+
+  }
+
+
+  // Warning
+  else if (timeLeft > 0) {
+
+    timerElement.style.borderColor =
       "#ff5573";
 
-  } else {
+    timerElement.style.color =
+      "#ff5573";
 
-    document.getElementById("timer").style.borderColor =
-      "#8b5cf6";
+  }
+
+
+  // Zero
+  else {
+
+    timerElement.style.borderColor =
+      "#ff5573";
+
+    timerElement.style.color =
+      "#ff5573";
 
   }
 
 }
 
 
-/* =========================
-   FINISH QUIZ
-========================= */
+// ----------------------------------------
+// SELECT ANSWER
+// ----------------------------------------
+
+function selectAnswer(
+  selectedIndex,
+  selectedButton
+) {
+
+  // Already answered
+  if (answered) {
+    return;
+  }
+
+
+  // Stop timer
+  clearInterval(timer);
+
+
+  // Mark answered
+  answered = true;
+
+
+  // Current question
+  const question =
+    questions[currentQuestion];
+
+
+  // All answer buttons
+  const allAnswers =
+    document.querySelectorAll(
+      ".answer"
+    );
+
+
+  // Disable all
+  allAnswers.forEach(
+    button => {
+
+      button.classList.add(
+        "disabled"
+      );
+
+    }
+  );
+
+
+  // Correct answer
+  if (
+    selectedIndex === question.c
+  ) {
+
+    selectedButton.classList.add(
+      "correct"
+    );
+
+
+    document.getElementById(
+      "quiz-message"
+    ).textContent =
+      "✅ အဖြေမှန်ပါတယ်!";
+
+  }
+
+
+  // Wrong answer
+  else {
+
+    selectedButton.classList.add(
+      "wrong"
+    );
+
+
+    allAnswers[
+      question.c
+    ].classList.add(
+      "correct"
+    );
+
+
+    document.getElementById(
+      "quiz-message"
+    ).textContent =
+      `❌ အဖြေမှားပါတယ်။ မှန်တဲ့အဖြေက ${question.a[question.c]} ပါ။`;
+
+  }
+
+
+  // Show next
+  document.getElementById(
+    "next-button"
+  ).style.display =
+    "block";
+
+}
+
+
+// ----------------------------------------
+// TIME UP
+// ----------------------------------------
+
+function timeUp() {
+
+  // If already answered
+  if (answered) {
+    return;
+  }
+
+
+  answered = true;
+
+
+  const question =
+    questions[currentQuestion];
+
+
+  const allAnswers =
+    document.querySelectorAll(
+      ".answer"
+    );
+
+
+  // Disable answers
+  allAnswers.forEach(
+    button => {
+
+      button.classList.add(
+        "disabled"
+      );
+
+    }
+  );
+
+
+  // Show correct answer
+  allAnswers[
+    question.c
+  ].classList.add(
+    "correct"
+  );
+
+
+  // Message
+  document.getElementById(
+    "quiz-message"
+  ).textContent =
+    `⏰ အချိန်ကုန်သွားပါပြီ။ မှန်တဲ့အဖြေက ${question.a[question.c]} ပါ။`;
+
+
+  // Show next
+  document.getElementById(
+    "next-button"
+  ).style.display =
+    "block";
+
+}
+
+
+// ----------------------------------------
+// NEXT QUESTION
+// ----------------------------------------
+
+function nextQuestion() {
+
+  clearInterval(timer);
+
+
+  currentQuestion++;
+
+
+  // Questions finished
+  if (
+    currentQuestion >= questions.length
+  ) {
+
+    currentQuestion = 0;
+
+    shuffleQuestions();
+
+  }
+
+
+  showQuestion();
+
+}
+
+
+// ----------------------------------------
+// FINISH QUIZ
+// ----------------------------------------
 
 function finishQuiz() {
 
   clearInterval(timer);
 
 
-  document.querySelector(".quiz-section").style.display =
+  document.querySelector(
+    ".quiz-section"
+  ).style.display =
     "none";
 
 
-  document.querySelector(".finished").style.display =
+  document.querySelector(
+    ".finished"
+  ).style.display =
     "block";
 
 }
 
 
-/* =========================
-   HOME
-========================= */
+// ----------------------------------------
+// GO HOME
+// ----------------------------------------
 
 function goHome() {
 
   clearInterval(timer);
 
 
-  document.querySelector(".hero").style.display =
+  document.querySelector(
+    ".hero"
+  ).style.display =
     "block";
 
 
-  document.querySelector(".category-section").style.display =
+  document.querySelector(
+    ".category-section"
+  ).style.display =
     "none";
 
 
-  document.querySelector(".quiz-section").style.display =
+  document.querySelector(
+    ".quiz-section"
+  ).style.display =
     "none";
 
 
-  document.querySelector(".finished").style.display =
+  document.querySelector(
+    ".finished"
+  ).style.display =
     "none";
 
 }
 
 
-/* =========================
-   INITIAL
-========================= */
+// ----------------------------------------
+// INITIAL LOAD
+// ----------------------------------------
 
 renderCategories();

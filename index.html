@@ -570,65 +570,337 @@
 
 </div>
 
-
-<script>
-
-  function startQuiz() {
-
-    alert("🎮 Daily Quiz စတင်ပါမယ်!");
-
-  }
-
-
-  function openQuiz(category) {
-
-    alert("📚 " + category + " Quiz");
-
-  }
-
-
-  function oneMinute() {
-
-    alert("⏱️ 1 Minute Challenge");
-
-  }
-
-
-  function oneVsOne() {
-
-    alert("⚔️ 1 vs 1 Battle");
-
-  }
-
-
-  function leaderboard() {
-
-    alert("🏆 Leaderboard");
-
-  }
-
-
-  function reward() {
-
-    alert("🎁 Daily Reward");
-
-  }
-
-
-  function buyCoins() {
-
-    alert("🪙 KPay / Wave Pay Coin Purchase");
-
-  }
-
-
-  function profile() {
-
-    alert("👤 My Profile");
-
-  }
-
 </script>
+const questions = [
+  {
+    question: "မြန်မာနိုင်ငံရဲ့ အရှည်ဆုံးမြစ်က ဘာလဲ?",
+    answers: ["ဧရာဝတီမြစ်", "ချင်းတွင်းမြစ်", "သံလွင်မြစ်", "စစ်တောင်းမြစ်"],
+    correct: 0
+  },
+  {
+    question: "ကမ္ဘာပေါ်မှာ အကြီးဆုံး သမုဒ္ဒရာက ဘာလဲ?",
+    answers: ["အတ္တလန္တိတ်", "အိန္ဒိယ", "ပစိဖိတ်", "အာတိတ်"],
+    correct: 2
+  },
+  {
+    question: "လူ့ခန္ဓာကိုယ်မှာ နှလုံးဘယ်နှလုံးရှိသလဲ?",
+    answers: ["၁", "၂", "၃", "၄"],
+    correct: 0
+  },
+  {
+    question: "နေဟာ ဘာအမျိုးအစားဖြစ်သလဲ?",
+    answers: ["ဂြိုဟ်", "ကြယ်", "လ", "ဂြိုဟ်သိမ်"],
+    correct: 1
+  },
+  {
+    question: "ရေဟာ ပုံမှန်လေထုဖိအားမှာ ဘယ်ဒီဂရီမှာ ပွက်သလဲ?",
+    answers: ["50°C", "75°C", "100°C", "150°C"],
+    correct: 2
+  },
+  {
+    question: "ကမ္ဘာ့အမြင့်ဆုံးတောင်က ဘာလဲ?",
+    answers: ["K2", "Everest", "Fuji", "Kilimanjaro"],
+    correct: 1
+  },
+  {
+    question: "တစ်ပတ်မှာ ရက်ဘယ်နှရက်ရှိသလဲ?",
+    answers: ["၅", "၆", "၇", "၈"],
+    correct: 2
+  },
+  {
+    question: "လူသားတွေ အသက်ရှူရာမှာ အဓိကအသုံးပြုတဲ့ ဓာတ်ငွေ့က ဘာလဲ?",
+    answers: ["Oxygen", "Carbon Dioxide", "Hydrogen", "Helium"],
+    correct: 0
+  },
+  {
+    question: "မြန်မာနိုင်ငံရဲ့ မြို့တော်က ဘာလဲ?",
+    answers: ["ရန်ကုန်", "မန္တလေး", "နေပြည်တော်", "ပုဂံ"],
+    correct: 2
+  },
+  {
+    question: "အင်္ဂလိပ်အက္ခရာမှာ စာလုံးဘယ်နှလုံးရှိသလဲ?",
+    answers: ["24", "25", "26", "27"],
+    correct: 2
+  }
+];
 
+let currentQuestion = 0;
+let score = 0;
+let coins = 0;
+let timeLeft = 15;
+let timer;
+
+function startQuiz() {
+
+  currentQuestion = 0;
+  score = 0;
+  coins = 0;
+
+  showQuestion();
+
+}
+
+
+function showQuestion() {
+
+  const q = questions[currentQuestion];
+
+  document.body.innerHTML = `
+
+    <div style="
+      max-width:500px;
+      margin:auto;
+      padding:20px;
+      min-height:100vh;
+      background:#0f1025;
+      color:white;
+      font-family:Arial;
+    ">
+
+      <div style="
+        display:flex;
+        justify-content:space-between;
+        margin-bottom:20px;
+      ">
+
+        <b>Question ${currentQuestion + 1} / ${questions.length}</b>
+
+        <b>🪙 ${coins}</b>
+
+      </div>
+
+
+      <div style="
+        height:8px;
+        background:#292844;
+        border-radius:10px;
+        margin-bottom:25px;
+      ">
+
+        <div style="
+          width:${((currentQuestion + 1) / questions.length) * 100}%;
+          height:100%;
+          background:linear-gradient(90deg,#ff7a18,#ff3d81);
+          border-radius:10px;
+        "></div>
+
+      </div>
+
+
+      <div style="
+        text-align:center;
+        font-size:45px;
+        margin:30px 0;
+      ">
+        🧠
+      </div>
+
+
+      <h2 style="
+        line-height:1.6;
+        margin-bottom:25px;
+      ">
+        ${q.question}
+      </h2>
+
+
+      <div id="answers"></div>
+
+
+      <div style="
+        text-align:center;
+        margin-top:25px;
+        color:#aaa;
+      ">
+        ⏱️ <span id="timer">15</span> seconds
+      </div>
+
+    </div>
+  `;
+
+
+  const answersDiv = document.getElementById("answers");
+
+
+  q.answers.forEach((answer, index) => {
+
+    const button = document.createElement("button");
+
+    button.innerText =
+      String.fromCharCode(65 + index) + ". " + answer;
+
+    button.style.width = "100%";
+    button.style.padding = "17px";
+    button.style.marginBottom = "12px";
+    button.style.borderRadius = "16px";
+    button.style.border = "1px solid #343352";
+    button.style.background = "#191a38";
+    button.style.color = "white";
+    button.style.fontSize = "16px";
+    button.style.textAlign = "left";
+
+    button.onclick = () => checkAnswer(index);
+
+    answersDiv.appendChild(button);
+
+  });
+
+
+  startTimer();
+
+}
+
+
+function startTimer() {
+
+  clearInterval(timer);
+
+  timeLeft = 15;
+
+  const timerElement = document.getElementById("timer");
+
+  timer = setInterval(() => {
+
+    timeLeft--;
+
+    timerElement.innerText = timeLeft;
+
+    if (timeLeft <= 0) {
+
+      clearInterval(timer);
+
+      nextQuestion();
+
+    }
+
+  }, 1000);
+
+}
+
+
+function checkAnswer(selected) {
+
+  clearInterval(timer);
+
+  const correct = questions[currentQuestion].correct;
+
+  if (selected === correct) {
+
+    score += 10;
+    coins += 10;
+
+    alert("✅ အဖြေမှန်!\n+10 Score\n+10 🪙");
+
+  } else {
+
+    alert(
+      "❌ အဖြေမှား!\n\n" +
+      "အဖြေမှန်က " +
+      questions[currentQuestion].answers[correct]
+    );
+
+  }
+
+  nextQuestion();
+
+}
+
+
+function nextQuestion() {
+
+  currentQuestion++;
+
+  if (currentQuestion >= questions.length) {
+
+    showResult();
+
+  } else {
+
+    showQuestion();
+
+  }
+
+}
+
+
+function showResult() {
+
+  clearInterval(timer);
+
+  document.body.innerHTML = `
+
+    <div style="
+      max-width:500px;
+      margin:auto;
+      min-height:100vh;
+      padding:30px 20px;
+      background:#0f1025;
+      color:white;
+      text-align:center;
+      font-family:Arial;
+    ">
+
+      <div style="
+        font-size:70px;
+        margin-top:60px;
+      ">
+        🏆
+      </div>
+
+      <h1 style="margin:20px 0;">
+        Quiz Complete!
+      </h1>
+
+      <p style="
+        color:#aaa;
+        margin-bottom:30px;
+      ">
+        မေးခွန်း ${questions.length} ခု ဖြေပြီးပါပြီ
+      </p>
+
+
+      <div style="
+        background:#211f45;
+        border-radius:25px;
+        padding:30px;
+        margin-bottom:25px;
+      ">
+
+        <h2>
+          ${score} Points
+        </h2>
+
+        <div style="
+          margin-top:15px;
+          color:#ffd43b;
+          font-size:20px;
+        ">
+          🪙 +${coins} Coins
+        </div>
+
+      </div>
+
+
+      <button
+        onclick="location.reload()"
+        style="
+          width:100%;
+          padding:17px;
+          border:none;
+          border-radius:16px;
+          background:linear-gradient(90deg,#ff7a18,#ff3d81);
+          color:white;
+          font-size:17px;
+          font-weight:bold;
+        "
+      >
+        🔄 Play Again
+      </button>
+
+    </div>
+
+  `;
+
+} </script>
 </body>
 </html>

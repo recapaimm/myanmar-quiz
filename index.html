@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>သိလား? - Myanmar Quiz</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #0f1025;
+      color: white;
+    }
+
+    .app {
+      max-width: 500px;
+      margin: auto;
+      padding: 18px;
+    }
+
+    /* Header */
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ffd43b, #ff8c00);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+    }
+
+    .username {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .level {
+      color: #999;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    .coins {
+      background: #211f45;
+      padding: 10px 14px;
+      border-radius: 20px;
+      color: #ffd43b;
+      font-weight: bold;
+    }
+
+    /* Streak */
+
+    .streak {
+      background: linear-gradient(135deg, #24204e, #30296b);
+      padding: 17px;
+      border-radius: 20px;
+      margin-bottom: 18px;
+    }
+
+    .streak-title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .streak-text {
+      color: #aaa;
+      font-size: 13px;
+      margin-top: 6px;
+    }
+
+    /* Daily Quiz */
+
+    .daily {
+      background: linear-gradient(135deg, #ff7a18, #ff3d81);
+      padding: 25px;
+      border-radius: 25px;
+      margin-bottom: 28px;
+      box-shadow: 0 15px 35px rgba(0,0,0,.3);
+    }
+
+    .daily-icon {
+      font-size: 45px;
+      margin-bottom: 10px;
+    }
+
+    .daily h1 {
+      font-size: 28px;
+      margin-bottom: 7px;
+    }
+
+    .daily p {
+      color: rgba(255,255,255,.85);
+      margin-bottom: 20px;
+    }
+
+    .play-btn {
+      width: 100%;
+      border: none;
+      padding: 15px;
+      border-radius: 15px;
+      background: white;
+      color: #ff3d81;
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    /* Category */
+
+    .title {
+      font-size: 21px;
+      margin-bottom: 15px;
+    }
+
+    .categories {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .category {
+      background: #191a38;
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 19px;
+      padding: 18px 15px;
+      color: white;
+      text-align: left;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .category:active {
+      transform: scale(.95);
+    }
+
+    .category-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .category-name {
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+    .category-info {
+      color: #777;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    /* Special */
+
+    .special {
+      margin-top: 28px;
+    }
+
+    .special-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .special-card {
+      background: #211f45;
+      color: white;
+      border: none;
+      border-radius: 18px;
+      padding: 18px;
+      text-align: left;
+    }
+
+    .special-card span {
+      display: block;
+      font-size: 30px;
+      margin-bottom: 8px;
+    }
+
+    .special-card b {
+      font-size: 14px;
+    }
+
+    /* Bottom */
+
+    .bottom {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .bottom button {
+      border: none;
+      border-radius: 16px;
+      padding: 16px;
+      background: #211f45;
+      color: white;
+      font-size: 14px;
+    }
+
+    .footer {
+      text-align: center;
+      color: #555;
+      font-size: 12px;
+      margin-top: 30px;
+      padding-bottom: 20px;
+    }
+  </style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+  <!-- Header -->
+
+  <div class="header">
+
+    <div class="profile">
+
+      <div class="avatar">
+        😎
+      </div>
+
+      <div>
+        <div class="username">
+          Tun Tun
+        </div>
+
+        <div class="level">
+          Level 1 • Beginner
+        </div>
+      </div>
+
+    </div>
+
+    <div class="coins">
+      🪙 2,450
+    </div>
+
+  </div>
+
+
+  <!-- Streak -->
+
+  <div class="streak">
+
+    <div class="streak-title">
+      🔥 7 Days Streak
+    </div>
+
+    <div class="streak-text">
+      ဒီနေ့ Quiz ကစားပြီး Streak ဆက်ထားပါ!
+    </div>
+
+  </div>
+
+
+  <!-- Daily Quiz -->
+
+  <div class="daily">
+
+    <div class="daily-icon">
+      🧠
+    </div>
+
+    <h1>
+      Daily Quiz
+    </h1>
+
+    <p>
+      ဒီနေ့ရဲ့ မေးခွန်း 10 ခုကို စမ်းကြည့်ပါ။
+    </p>
+
+    <button class="play-btn" onclick="startQuiz()">
+      ▶ PLAY NOW
+    </button>
+
+  </div>
+
+
+  <!-- Categories -->
+
+  <h2 class="title">
+    📚 Quiz Categories
+  </h2>
+
+  <div class="categories">
+
+
+    <button class="category" onclick="openQuiz('အထွေထွေဗဟုသုတ')">
+
+      <div class="category-icon">
+        🧠
+      </div>
+
+      <div class="category-name">
+        အထွေထွေဗဟုသုတ
+      </div>
+
+      <div class="category-info">
+        Knowledge
+      </div>
+
+    </button>
+
+
+    <button class="category" onclick="openQuiz('မြန်မာ့အကြောင်း')">
+
+      <div class="category-icon">
+        🇲🇲
+      </div>
+
+      <div class="category-name">
+        မြန်မာ့အကြောင်း
+      </div>
+
+      <div class="category-info">
+        Myanmar
+      </div>
+
+    </button>
+
+
+    <button class="category" onclick="openQuiz('ကမ္ဘာ့ဗဟုသုတ')">
+
+      <div class="category-icon">
+        🌍
+      </div>
+
+      <div class="category-name">
+        ကမ္ဘာ့ဗဟုသုတ
+      </div>
+
+      <div class="category-info">
+        World
+      </div>
+
+    </button>
+
+
+    <button class="category" onclick="openQuiz('သိပ္ပံနှင့်သဘာဝ')">
+
+      <div class="category-icon">
+        🔬
+      </div>
+
+      <div class="category-name">
+        သိပ္ပံ & သဘာဝ
+      </div>
+
+      <div class="category-info">
+        Science
+      </div>
+
+    </button>
+
+
+    <button class="category" onclick="openQuiz('ပညာရေး')">
+
+      <div class="category-icon">
+        📚
+      </div>
+
+      <div class="category-name">
+        ပညာရေး
+      </div>
+
+      <div class="category-info">
+        Education
+      </div>
+
+    </button>
+
+
+    <button class="category" onclick="openQuiz('အားကစား')">
+
+      <div class="category-icon">
+        ⚽
+      </div>
+
+      <div class="category-name">
+        အားကစား
+      </div>
+
+      <div class="category-info">
+        Sports
+      </div>
+
+    </button>
+
+
+    <button class="category" onclick="openQuiz('Entertainment')">
+
+      <div class="category-icon">
+        🎬
+      </div>
+
+      <div class="category-name">
+        Entertainment
+      </div>
+
+      <div class="category-info">
+        Movies & Music
+      </div>
+
+    </button>
+
+
+    <button class="category" onclick="openQuiz('ဉာဏ်စမ်း')">
+
+      <div class="category-icon">
+        🧩
+      </div>
+
+      <div class="category-name">
+        ဉာဏ်စမ်း / Riddle
+      </div>
+
+      <div class="category-info">
+        Logic & Puzzle
+      </div>
+
+    </button>
+
+
+    <button class="category" onclick="openQuiz('Fun Quiz')">
+
+      <div class="category-icon">
+        😂
+      </div>
+
+      <div class="category-name">
+        Fun Quiz
+      </div>
+
+      <div class="category-info">
+        Personality
+      </div>
+
+    </button>
+
+
+    <button class="category" onclick="openQuiz('Kids Zone')">
+
+      <div class="category-icon">
+        🧒
+      </div>
+
+      <div class="category-name">
+        Kids Zone
+      </div>
+
+      <div class="category-info">
+        For Kids
+      </div>
+
+    </button>
+
+  </div>
+
+
+  <!-- Special Modes -->
+
+  <div class="special">
+
+    <h2 class="title">
+      🔥 Special Modes
+    </h2>
+
+    <div class="special-grid">
+
+      <button class="special-card" onclick="oneMinute()">
+
+        <span>
+          ⏱️
+        </span>
+
+        <b>
+          1 Minute Challenge
+        </b>
+
+      </button>
+
+
+      <button class="special-card" onclick="oneVsOne()">
+
+        <span>
+          ⚔️
+        </span>
+
+        <b>
+          1 vs 1 Battle
+        </b>
+
+      </button>
+
+
+      <button class="special-card" onclick="leaderboard()">
+
+        <span>
+          🏆
+        </span>
+
+        <b>
+          Leaderboard
+        </b>
+
+      </button>
+
+
+      <button class="special-card" onclick="reward()">
+
+        <span>
+          🎁
+        </span>
+
+        <b>
+          Daily Reward
+        </b>
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- Bottom -->
+
+  <div class="bottom">
+
+    <button onclick="buyCoins()">
+      🪙 Buy Coins
+    </button>
+
+    <button onclick="profile()">
+      👤 My Profile
+    </button>
+
+  </div>
+
+
+  <div class="footer">
+    သိလား? • Myanmar Quiz Game
+  </div>
+
+</div>
+
+
+<script>
+
+  function startQuiz() {
+
+    alert("🎮 Daily Quiz စတင်ပါမယ်!");
+
+  }
+
+
+  function openQuiz(category) {
+
+    alert("📚 " + category + " Quiz");
+
+  }
+
+
+  function oneMinute() {
+
+    alert("⏱️ 1 Minute Challenge");
+
+  }
+
+
+  function oneVsOne() {
+
+    alert("⚔️ 1 vs 1 Battle");
+
+  }
+
+
+  function leaderboard() {
+
+    alert("🏆 Leaderboard");
+
+  }
+
+
+  function reward() {
+
+    alert("🎁 Daily Reward");
+
+  }
+
+
+  function buyCoins() {
+
+    alert("🪙 KPay / Wave Pay Coin Purchase");
+
+  }
+
+
+  function profile() {
+
+    alert("👤 My Profile");
+
+  }
+
+</script>
+
+</body>
+</html>
